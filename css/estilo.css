@@ -1,0 +1,1686 @@
+﻿/* ===== Reset y base ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-primario: #1e6f5c;
+  --color-primario-osc: #14503f;
+  --color-fondo: #f4f7f6;
+  --color-carta: #ffffff;
+  --color-texto: #1f2b28;
+  --color-texto-suave: #5a6b66;
+  --color-borde: #c9d6d2;
+  --color-acento: #e8a13c;
+  --color-peligro: #c0392b;
+  --color-ayuda: #e9f4f0;
+  --radio: 12px;
+  --sombra: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+html, body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  min-height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===== Header ===== */
+.app-header {
+  background: linear-gradient(135deg, var(--color-primario), var(--color-primario-osc));
+  color: #fff;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 1.4rem;
+}
+
+.app-header .subtitulo {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+/* ===== Navegación ===== */
+.nav-bar {
+  display: flex;
+  background: #fff;
+  border-bottom: 2px solid var(--color-borde);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 12px 4px;
+  background: transparent;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-texto-suave);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-btn.is-active {
+  color: var(--color-primario);
+  border-bottom-color: var(--color-primario);
+}
+
+/* ===== Vistas y secciones ===== */
+.view {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 40px;
+}
+
+section {
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+  color: var(--color-primario-osc);
+}
+
+h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.texto-ayuda {
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+  margin-bottom: 14px;
+}
+
+/* ===== Grilla de opciones ===== */
+.grid-opciones {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.opcion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 14px;
+  cursor: pointer;
+  box-shadow: var(--sombra);
+  transition: transform 0.1s, border-color 0.1s;
+}
+
+.opcion-card:active {
+  transform: scale(0.98);
+  border-color: var(--color-primario);
+}
+
+.opcion-emoji {
+  font-size: 1.6rem;
+}
+
+.opcion-titulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 6px;
+  color: var(--color-primario-osc);
+}
+
+.opcion-desc {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+/* ===== Botones ===== */
+.btn-primario, .btn-secundario, .btn-peligro, .btn-ver-ayuda, .btn-volver {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.1s;
+}
+
+.btn-primario {
+  background: var(--color-primario);
+  color: #fff;
+}
+
+.btn-secundario {
+  background: #fff;
+  color: var(--color-primario-osc);
+  border: 1px solid var(--color-borde);
+}
+
+.btn-ver-ayuda {
+  background: var(--color-acento);
+  color: #fff;
+}
+
+.btn-peligro {
+  background: var(--color-peligro);
+  color: #fff;
+}
+
+.btn-primario:active, .btn-secundario:active, .btn-peligro:active, .btn-ver-ayuda:active, .btn-volver:active {
+  filter: brightness(0.92);
+}
+
+.zonas-peligro {
+  background: #fdecea;
+  border: 1px solid #f5c6c0;
+  border-radius: var(--radio);
+  padding: 14px;
+}
+
+/* ===== Editor ===== */
+.editor-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.btn-volver {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  color: var(--color-texto);
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.editor-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.editor-acciones-bottom {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.editor-contenedor {
+  background: #e6ecea;
+  border-radius: var(--radio);
+  padding: 14px;
+}
+
+/* ===== Carta ===== */
+.carta {
+  background: var(--color-carta);
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  padding: 14px;
+  font-size: 0.85rem;
+  color: #222;
+  max-width: 100%;
+  transition: box-shadow 0.2s;
+}
+
+.carta.modo-ayuda .val {
+  background: #fff;
+  outline: 1px dashed #e0a12c;
+}
+
+.carta.modo-ayuda .val.vacio {
+  background: #fff;
+  outline: 1px dashed #e0a12c;
+}
+
+.carta-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.emisor {
+  flex: 1;
+}
+
+.rotulo {
+  text-align: center;
+  min-width: 70px;
+}
+
+.factura-letra {
+  font-size: 3.2rem;
+  font-weight: 800;
+  border: 3px solid #333;
+  width: 64px;
+  height: 64px;
+  line-height: 58px;
+  margin: 0 auto 4px;
+  border-radius: 6px;
+}
+
+.factura-tipo {
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+}
+
+/* Campos */
+.campo {
+  margin-bottom: 4px;
+}
+
+.campo-inline {
+  margin-bottom: 4px;
+}
+
+.lbl {
+  display: block;
+  font-size: 0.7rem;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.val {
+  display: inline-block;
+  min-width: 12px;
+  min-height: 1.3em;
+  border-bottom: 1px dotted #aaa;
+  padding: 0 2px;
+  background: #fff;
+  word-break: break-word;
+}
+
+/* Campos editables bien visibles: fondo claro + borde punteado vistoso */
+.carta .val[contenteditable="true"] {
+  border-bottom: 2px dashed var(--color-primario);
+  background: #fff;
+  min-width: 22px;
+}
+
+.carta .val[contenteditable="true"]:hover {
+  background: #fff;
+}
+
+.carta .val[contenteditable="true"]:focus {
+  outline: none;
+  background: #e6f7f1;
+  border-bottom: 2px solid var(--color-primario);
+}
+
+.val.automatico {
+  font-style: italic;
+  background: #f2f2f2;
+  border-bottom: 1px solid #999;
+  min-height: 1.5em;
+  display: inline;
+}
+
+/* Placeholder mostrado cuando el campo está vacío (ej: "Expresado en palabras") */
+.val.placeholder-vacio::before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  font-style: italic;
+}
+
+.ayuda-fantasma {
+  display: none;
+}
+
+/* Tabla detalle */
+table.detalle {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 0.8rem;
+  table-layout: fixed;
+}
+
+table.detalle td:nth-child(1) {
+  width: 40%;
+}
+table.detalle td:nth-child(2),
+table.detalle td:nth-child(3),
+table.detalle td:nth-child(4) {
+  width: 20%;
+}
+
+table.detalle th, table.detalle td {
+  border: 1px solid #bbb;
+  padding: 5px 4px;
+  vertical-align: top;
+}
+
+table.detalle th {
+  background: #eef2f1;
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+table.detalle .val {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.lbl-aliniado-derecha {
+  text-align: right;
+}
+
+.select-alicuota {
+  font-size: 0.8rem;
+  margin-left: 6px;
+}
+
+.pie-carta {
+  font-size: 0.7rem;
+  color: #555;
+  margin-top: 8px;
+  border-top: 1px solid #ccc;
+  padding-top: 6px;
+  text-align: center;
+}
+
+/* Recibo */
+.recibo-clausula, .cheque-clausula {
+  margin: 16px 0;
+  line-height: 2;
+}
+
+.recibo-clausula .val, .cheque-clausula .val {
+  display: inline;
+  border-bottom: 1px solid #999;
+  margin: 0 2px;
+}
+
+.cheque-clausula .val {
+  line-height: 2.4;
+}
+
+.cheque-linea {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  line-height: 2.4;
+}
+
+.cheque-linea .val.barra {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.firmas, .cheque-firma {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.espacio-firma {
+  border-bottom: 1px solid #333;
+  width: 100%;
+  height: 40px;
+}
+
+/* Cheque */
+.cheque {
+  border: 2px solid #333;
+}
+
+.cheque-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.cheque-cabecera .banco {
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: none;
+}
+
+.cheque-cheque {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.cheque-localidad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.cheque-firma {
+  margin-top: 34px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cheque-firma .lbl:first-child, .cheque-firma .espacio-firma {
+  display: none;
+}
+
+/* Tooltip de ayuda */
+.ayuda-tooltip {
+  background: #1f2b28;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  position: absolute;
+  max-width: 220px;
+  z-index: 50;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+/* Nota informativa de ayuda */
+.nota-ayuda-banner {
+  background: var(--color-ayuda);
+  border: 1px solid var(--color-primario);
+  color: var(--color-primario-osc);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+/* ===== Historial ===== */
+.filtros {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filtro {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+.lista-historial {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.item-historial {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-tipo {
+  font-weight: 700;
+  color: var(--color-primario-osc);
+}
+
+.item-fecha {
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+}
+
+.item-resumen {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item-acciones button {
+  border: none;
+  background: var(--color-primario);
+  color: #fff;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.item-acciones button.btn-borrar {
+  background: var(--color-peligro);
+}
+
+.item-acciones button.btn-pdf {
+  background: var(--color-acento);
+}
+
+.vacio-historial {
+  text-align: center;
+  color: var(--color-texto-suave);
+  padding: 30px 10px;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 360px;
+  width: 100%;
+}
+
+.modal h3 {
+  margin-bottom: 8px;
+}
+
+.modal p {
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+  margin-bottom: 16px;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ===== Aprender ===== */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.tab-btn {
+  border: 1px solid var(--color-borde);
+  background: #fff;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--color-texto);
+}
+
+.tab-btn.is-active {
+  background: var(--color-primario);
+  color: #fff;
+  border-color: var(--color-primario);
+}
+
+.aprender-contenido {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 16px;
+}
+
+.aprender-bloque {
+  margin-bottom: 18px;
+}
+
+.aprender-bloque h4 {
+  color: var(--color-primario-osc);
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.aprender-bloque p, .aprender-bloque li {
+  font-size: 0.9rem;
+  color: var(--color-texto);
+}
+
+.aprender-bloque ul {
+  padding-left: 20px;
+}
+
+.diagrama {
+  background: var(--color-fondo);
+  border: 1px dashed var(--color-borde);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+.campo-diagrama {
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+}
+
+.campo-diagrama .flecha {
+  color: var(--color-primario);
+  font-weight: 700;
+}
+
+.campo-diagrama .queva {
+  color: var(--color-texto-suave);
+  font-style: italic;
+}
+
+.tabla-comparativa {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.tabla-comparativa th, .tabla-comparativa td {
+  border: 1px solid var(--color-borde);
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-comparativa th {
+  background: #eef4f2;
+}
+
+.btn-practicar {
+  margin-top: 6px;
+}
+
+.btn-practicar button {
+  background: var(--color-primario);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ===== Footer ===== */
+.app-footer {
+  text-align: center;
+  color: var(--color-texto-suave);
+  font-size: 0.8rem;
+  padding: 20px 0;
+}
+
+/* ===== Medida para pantallas grandes ===== */
+@media (min-width: 520px) {
+  .grid-opciones {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lista-historial {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ===== Barra de sesión ===== */
+.sesion-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--color-borde);
+  font-size: 0.9rem;
+}
+
+.sesion-texto {
+  font-weight: 600;
+  color: var(--color-primario-osc);
+}
+
+.btn-salir {
+  border: 1px solid var(--color-borde);
+  background: #fff;
+  color: var(--color-texto);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* ===== Login ===== */
+.login-card {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 18px;
+  box-shadow: var(--sombra);
+  max-width: 420px;
+  margin: 20px auto;
+}
+
+.login-lbl {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-texto-suave);
+  margin-bottom: 10px;
+}
+
+.login-lbl input,
+.login-lbl select,
+.login-lbl textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.login-toggle {
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.login-toggle input {
+  margin-right: 6px;
+}
+
+.login-docente {
+  margin-top: 4px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ===== Editor: acciones ===== */
+.btn-entregar {
+  background: var(--color-acento);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-entregar:active {
+  transform: scale(0.98);
+}
+
+/* ===== Banner devuelto ===== */
+.nota-ayuda-banner {
+  background: #fff7e6;
+  border: 1px solid #f0d28a;
+  color: #7a5b00;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+/* ===== Panel de corrección (docente) ===== */
+.panel-correccion {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--sombra);
+}
+
+.panel-correccion h3 {
+  color: var(--color-primario-osc);
+}
+
+.corr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.corr-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.corr-acciones button {
+  flex: 1;
+  min-width: 130px;
+}
+
+/* ===== Resumen de corrección (alumno) ===== */
+.resumen-correccion {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--sombra);
+}
+
+.resumen-correccion h3 {
+  color: var(--color-primario-osc);
+}
+
+.resumen-nota {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.resumen-errors {
+  margin-top: 10px;
+  font-size: 0.88rem;
+}
+
+.resumen-errors ul {
+  padding-left: 20px;
+  margin-top: 4px;
+}
+
+.resumen-devu {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #7a5b00;
+  background: #fff7e6;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+/* ===== Badges de estado ===== */
+.badge-estado {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.badge-entregado {
+  background: var(--color-primario);
+}
+
+.badge-devuelto {
+  background: var(--color-acento);
+  color: #fff;
+}
+
+.badge-corregido {
+  background: var(--color-primario-osc);
+}
+
+.badge-aprobado {
+  background: #1e8e3e;
+}
+
+.badge-desaprobado {
+  background: var(--color-peligro);
+}
+
+.badge-nota {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-primario-osc);
+  background: #e9f4f0;
+  border: 1px solid #cfe6de;
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ===== Carta bloqueada / errores marcados ===== */
+.carta-bloqueada .val[contenteditable] {
+  cursor: default;
+}
+
+.val.marco-error {
+  background: #fdecea !important;
+  outline: 2px solid var(--color-peligro);
+  border-radius: 4px;
+}
+
+.val.marco-error::after {
+  content: " ✖";
+  color: var(--color-peligro);
+  font-weight: 700;
+}
+
+/* En modo corrección, las casillas son tocables */
+.carta-correccion .val[data-bind] {
+  cursor: pointer;
+}
+
+/* ===== Factura modelo AFIP ===== */
+.factura {
+  border: 2px solid #333;
+  font-size: 0.78rem;
+}
+
+.f-hdr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 8px;
+}
+
+.f-titulo-linea {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.f-izq {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-size: 0.78rem;
+}
+
+.f-izq .val {
+  display: block;
+  border-bottom: 1px solid #999;
+  margin-top: 2px;
+}
+
+.f-letra {
+  font-size: 3rem;
+  font-weight: 800;
+  border: 2px solid #333;
+  padding: 4px 14px;
+  line-height: 1;
+}
+
+.f-nombre-box {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  border: 2px solid #333;
+  padding: 6px 14px;
+  line-height: 1;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.carta.nota .f-nombre-box {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  padding: 5px 8px;
+}
+
+.f-cli-margin {
+  margin-left: 14px;
+}
+
+.f-codbox {
+  border: 2px solid #333;
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  align-self: start;
+  text-align: center;
+}
+
+.f-codbox > div {
+  margin-bottom: 4px;
+}
+
+.f-codbox > div:last-child {
+  margin-bottom: 0;
+}
+
+.f-cod,
+.f-fecha,
+.f-cuit,
+.f-fis {
+  font-weight: 700;
+}
+
+.f-cod .val,
+.f-fecha .val,
+.f-cuit .val,
+.f-fis .val {
+  border-bottom: 1px solid #999;
+  display: inline-block;
+  min-width: 70px;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.f-fis .val {
+  min-width: 60px;
+}
+
+.f-cliente-box {
+  border: 1px solid #333;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+}
+
+.f-iva-comprador {
+  border-top: 1px solid #333;
+  padding-top: 6px;
+  margin-top: 6px;
+  font-size: 0.75rem;
+}
+
+.iva-opcion {
+  font-size: 0.7rem;
+  margin-right: 10px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.iva-opcion input {
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+.f-iva-comprador .val {
+  border-bottom: 1px solid #999;
+  display: inline-block;
+  min-width: 140px;
+  margin-left: 4px;
+}
+
+.f-cliente {
+  margin-bottom: 8px;
+}
+
+.f-cli {
+  margin-bottom: 4px;
+}
+
+.f-cli .val {
+  border-bottom: 1px solid #999;
+  display: inline-block;
+  min-width: 220px;
+  margin-left: 4px;
+}
+
+.f-sellos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 0.72rem;
+  margin-top: 10px;
+  border-top: 1px solid #999;
+  padding-top: 6px;
+}
+
+.f-sellos .val {
+  border-bottom: 1px solid #999;
+  min-width: 80px;
+  display: inline-block;
+}
+
+.f-imprenta {
+  margin-top: 6px;
+  font-size: 0.6rem;
+  color: #444;
+}
+
+.f-copia {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 6px;
+  border-top: 1px solid #999;
+  padding-top: 4px;
+}
+
+/* ===== Cheque común y diferido ===== */
+.cheque-hdr {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.cheque-logo {
+  flex: 1 1 40%;
+  min-width: 0;
+}
+
+.cheque-banco .val {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.cheque-rubrica {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.cheque-nums {
+  text-align: right;
+  line-height: 1.6;
+}
+
+.cheque-num {
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.cheque-num.preimpreso {
+  color: #777;
+}
+
+.cheque-num .val {
+  font-weight: 700;
+  min-width: 110px;
+  display: inline-block;
+  text-align: center;
+}
+
+.cheque-plaza {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.cheque-plaza .val {
+  min-width: 90px;
+  text-align: center;
+}
+
+.cheque-condicion {
+  font-size: 0.7rem;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 8px 0;
+  text-align: center;
+  border: 1px dashed #888;
+  padding: 4px 6px;
+}
+
+.cheque-dif-datos {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cheque-fecha-pago {
+  border: 1px solid #333;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+}
+
+.cheque-fecha-pago .val {
+  min-width: 120px;
+  display: inline-block;
+  text-align: center;
+}
+
+.cheque-micr {
+  font-family: "Courier New", monospace;
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+  margin-top: 18px;
+  text-align: center;
+  border-top: 1px solid #333;
+  padding-top: 8px;
+}
+
+.carta.cheque .cheque-firma .lbl,
+.carta.cheque .cheque-firma .espacio-firma {
+  display: block;
+}
+
+.carta.cheque .cheque-firma .espacio-firma {
+  height: 30px;
+  width: 100%;
+}
+
+
+
+/* ===== Nota de débito/crédito (réplica del modelo escaneado) ===== */
+.carta.nota {
+  width: 210mm;
+  min-height: 297mm;
+  max-width: none;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  position: relative;
+  color: #000;
+  font-size: 10px;
+  overflow: hidden;
+}
+.carta.nota .nota-form {
+  position: absolute;
+  left: 31.3mm;
+  top: 37.6mm;
+  width: 150.6mm;
+  height: 259mm;
+  font-size: 2.4mm;
+  line-height: 1.25;
+}
+.nota-form .val {
+  display: inline-block;
+  border-bottom: 0.28mm solid #000;
+  min-width: 8mm;
+  min-height: 4.4mm;
+  vertical-align: baseline;
+  padding: 0 0.5mm;
+}
+.nota-form .lbl {
+  color: #000;
+  font-size: 2.3mm;
+  font-weight: 700;
+  letter-spacing: 0.05mm;
+  display: inline;
+  text-transform: none;
+}
+.nota-form .iva-opcion {
+  font-size: 2.2mm;
+  margin-right: 3mm;
+  white-space: nowrap;
+}
+.nota-form .iva-opcion input {
+  vertical-align: middle;
+  margin-right: 0.8mm;
+}
+.carta.nota .vv-seleccion { display: none; }
+
+/* Letra */
+.nota-letra {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 75.3mm;
+  height: 26.4mm;
+  border: 0.5mm solid #000;
+  background: #fff;
+}
+.nota-letra-txt {
+  display: block;
+  text-align: center;
+  line-height: 26.4mm;
+  font-size: 20mm;
+  font-weight: 800;
+}
+
+/* Caja de título (derecha) */
+.nota-titulo-box {
+  position: absolute;
+  left: 75.3mm;
+  top: 1.2mm;
+  width: 75.3mm;
+  height: 29.3mm;
+  border: 0.5mm solid #000;
+  background: #fff;
+  text-align: center;
+}
+.nota-titulo {
+  margin-top: 2.2mm;
+  font-size: 3mm;
+  font-weight: 800;
+  letter-spacing: 0.4mm;
+  white-space: nowrap;
+}
+.nota-num {
+  margin-top: 9mm;
+  font-size: 2.8mm;
+  font-weight: 700;
+}
+.nota-titulo-box .nota-num .val {
+  min-width: 12mm;
+  text-align: center;
+  font-weight: 400;
+}
+.nota-fecha {
+  margin-top: 5mm;
+}
+.nota-titulo-box .nota-fecha .lbl { font-weight: 700; }
+.nota-titulo-box .nota-fecha .val {
+  min-width: 30mm;
+  text-align: center;
+}
+
+/* Condición IVA (bajo la letra) */
+.nota-iva {
+  position: absolute;
+  left: 1.5mm;
+  top: 38.7mm;
+  width: 73mm;
+  font-size: 2.4mm;
+}
+.nota-form .nota-iva .val {
+  min-width: 48mm;
+}
+.nota-form .nota-iva .val,
+.nota-cliente .nc-row .val {
+  border-bottom: 1px dotted #000;
+  background: transparent;
+}
+.nota-titulo-box .nota-num .val,
+.nota-titulo-box .nota-fecha .val {
+  background: transparent;
+}
+
+/* Datos del emisor (derecha, dos filas) */
+.nota-emisor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150.6mm;
+  font-size: 2.3mm;
+}
+.nota-emisor .ne-row {
+  position: absolute;
+  left: 0;
+  width: 150.6mm;
+  white-space: nowrap;
+}
+.nota-emisor .ne-row:nth-of-type(1) {
+  position: absolute;
+  left: 89.5mm;
+  top: 36.6mm;
+  width: 61mm;
+  display: flex;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+.nota-emisor .ne-row:nth-of-type(2) { top: 39.7mm; }
+.nota-emisor .ne-row .lbl {
+  font-size: 2mm;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #222;
+  line-height: 1;
+  white-space: nowrap;
+}
+.nota-emisor .ne-row .val {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  border-bottom: 1px dotted #000;
+  background: transparent;
+  padding: 0;
+  font-size: 2mm;
+  line-height: 1;
+  margin-left: 0.8mm;
+}
+.nota-emisor .ne-row .v-e  { flex: 3 1 0; }
+.nota-emisor .ne-row .v-ib { flex: 1 1 0; }
+.nota-emisor .ne-row .l-ia { position: absolute; left: 101mm; }
+.nota-emisor .ne-row .v-ia { position: absolute; left: 123.5mm; margin-left: 0; min-width: 13.4mm; }
+
+/* Reglas horizontales */
+.nota-rule-h {
+  position: absolute;
+  left: -0.5mm;
+  width: 151.6mm;
+  border-top: 0.5mm solid #000;
+}
+.nota-rule-h.h1 { top: 43.3mm; }
+.nota-rule-h.h2 { top: 191.8mm; }
+
+/* Zona del cliente */
+.nota-cliente {
+  position: absolute;
+  left: 0;
+  top: 43.3mm;
+  width: 150.6mm;
+  height: 33.8mm;
+  border: 0.4mm solid #000;
+  border-top: 0;
+  font-size: 2.3mm;
+}
+.nc-rule {
+  position: absolute;
+  top: 27.2mm;
+  left: 1mm;
+  right: 1mm;
+  border-top: 0.4mm solid #000;
+}
+.nc-row {
+  position: absolute;
+  left: 2mm;
+  width: 146.6mm;
+  white-space: nowrap;
+}
+.nc-row.r1 { top: 8.3mm; }
+.nc-row.r2 { top: 16.1mm; }
+.nc-row.r3 { top: 23.8mm; }
+.nc-row.r4 { top: 30.2mm; }
+.nota-cliente .nc-row .l-rs  { margin-right: 2mm; }
+.nota-cliente .nc-row .v-rs  { min-width: 95mm; }
+.nota-cliente .nc-row .l-dom { margin-right: 2mm; }
+.nota-cliente .nc-row .v-dom { min-width: 55mm; }
+.nota-cliente .nc-row .l-loc { margin-left: 9mm; margin-right: 2mm; }
+.nota-cliente .nc-row .v-loc { min-width: 32mm; }
+.nota-cliente .nc-row.r3 .iva-opcion { margin-left: 22mm; }
+.nota-cliente .nc-row.r4 .iva-opcion { margin-left: 48mm; }
+.nota-cliente .nc-row.r4 .iva-opcion + .iva-opcion { margin-left: 6mm; }
+.nota-cliente .nc-row .l-cuit { margin-left: 8mm; }
+.nota-cliente .nc-row .v-cuit { min-width: 30mm; }
+.nota-cliente .nc-row .l-vta { margin-right: 2mm; }
+.nota-cliente .nc-row .l-rem { margin-left: 8mm; }
+.nota-cliente .nc-row .v-rem { min-width: 28mm; }
+
+/* Tabla de ítems */
+.nota-tabla {
+  position: absolute;
+  left: 0;
+  top: 77.3mm;
+  width: 150.6mm;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 2.3mm;
+}
+.nota-tabla th {
+  border: 0.25mm solid #000;
+  padding: 0.3mm 1.2mm;
+  overflow: hidden;
+}
+.nota-tabla td {
+  border: none;
+  border-left: 0.25mm solid #000;
+  border-right: 0.25mm solid #000;
+  border-bottom: 0.35mm dotted #000;
+  padding: 0.3mm 1.2mm;
+  overflow: hidden;
+}
+.nota-tabla thead th {
+  background: #707070;
+  color: #fff;
+  font-weight: 700;
+  font-size: 2.2mm;
+  text-align: center;
+  border-top: 0.5mm solid #000;
+  border-bottom: 0.5mm solid #000;
+}
+.nota-tabla .c-cant { width: 44.8mm; text-align: center; }
+.nota-tabla .c-desc { width: 56.2mm; }
+.nota-tabla th.c-desc { text-align: center; }
+.nota-tabla .c-pu { width: 20.4mm; text-align: center; }
+.nota-tabla .c-imp { width: 29.2mm; text-align: center; }
+.nota-tabla td.c-imp,
+.nota-tabla th.c-imp {
+  border-left: 0.35mm solid #000;
+  border-right: 0.35mm solid #000;
+}
+.nota-tabla td.c-cant,
+.nota-tabla th.c-cant { border-left: 0.35mm solid #000; }
+.nota-tabla td.c-pu,
+.nota-tabla th.c-pu { border-right: 0.25mm solid #bbb; }
+.nota-tabla td { height: 5.95mm; }
+.nota-tabla td .val {
+  width: 100%;
+  border-bottom: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+.nota-tabla tbody tr:last-child td {
+  border-bottom: 0.5mm solid #000;
+}
+
+/* Etiqueta lateral Original/Duplicado */
+.nota-original {
+  position: absolute;
+  left: -4mm;
+  top: 140mm;
+  transform: rotate(-90deg);
+  transform-origin: left top;
+  font-size: 2mm;
+  font-weight: 700;
+  letter-spacing: 0.4mm;
+  white-space: nowrap;
+  width: 60mm;
+  color: #333;
+}
+
+/* Totales */
+.nota-totales {
+  position: absolute;
+  left: 0;
+  top: 159.2mm;
+  width: 150.6mm;
+  font-size: 2.4mm;
+}
+.nota-totales .nt-row {
+  display: flex;
+  align-items: baseline;
+  height: 6.8mm;
+  line-height: 6.2mm;
+}
+.nota-totales .nt-lbl {
+  flex: 1;
+  text-align: right;
+  padding-right: 4mm;
+}
+.nota-totales .nt-lbl.nt-total {
+  font-weight: 800;
+}
+.nota-totales .nt-val {
+  display: inline-block;
+  width: 29.2mm;
+  border-left: 0.35mm solid #000;
+  border-right: 0.35mm solid #000;
+  border-bottom: 0;
+  text-align: center;
+  height: 6.8mm;
+  box-sizing: border-box;
+  background-image: radial-gradient(#000 0.18mm, transparent 0.18mm);
+  background-size: 1.2mm 1.2mm;
+  background-position: 0.6mm bottom;
+  background-repeat: repeat-x;
+}
+.nota-totales .nt-val .val {
+  border-bottom: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  width: 100%;
+  background: transparent;
+}
+
+/* Pie */
+.nota-pie {
+  position: absolute;
+  left: 0;
+  top: 196mm;
+  width: 150.6mm;
+  height: 55mm;
+}
+.np-imprenta {
+  font-size: 1.9mm;
+  line-height: 3.2mm;
+  color: #222;
+  width: 75mm;
+}
+.np-cai {
+  position: absolute;
+  top: 1mm;
+  left: 101.5mm;
+  width: 49.1mm;
+  background: #b5b5b5;
+  border: 0.4mm solid #000;
+  font-size: 2.1mm;
+  padding: 1.6mm 2mm;
+}
+.np-cai-row {
+  white-space: nowrap;
+  margin-bottom: 1.2mm;
+}
+.np-cai-val {
+  border-bottom: 0.25mm solid #000;
+  padding: 0 1mm;
+}
+.np-copia {
+  position: absolute;
+  top: 49mm;
+  left: 0;
+  width: 150.6mm;
+  text-align: center;
+  font-size: 2.2mm;
+  font-weight: 700;
+  letter-spacing: 0.6mm;
+  border-top: 0.35mm solid #000;
+  padding-top: 2.2mm;
+}

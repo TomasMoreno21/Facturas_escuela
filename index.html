@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprobantes Escolares - Aprende a completar Facturas, Recibos y Cheques</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>📚 Comprobantes Escolares</h1>
+    <p class="subtitulo">Aprendé a completar facturas, recibos y cheques</p>
+  </header>
+
+  <!-- Barra de sesión -->
+  <div class="sesion-bar">
+    <span class="sesion-texto" id="sesion-texto"></span>
+    <button class="btn-salir hidden" id="btn-salir">Salir</button>
+  </div>
+
+  <nav class="nav-bar hidden" id="nav-bar">
+    <button class="nav-btn" data-view="inicio">Inicio</button>
+    <button class="nav-btn" data-view="aprender">Aprender</button>
+    <button class="nav-btn" data-view="historial">Historial</button>
+  </nav>
+
+  <!-- VISTA: Login -->
+  <main id="view-login" class="view hidden">
+    <section class="login-card">
+      <h2>👋 ¿Quién sos?</h2>
+      <p class="texto-ayuda">Para empezar escribí tu nombre y apellido. Si sos la profesora, marcá la opción y entrá con tu clave.</p>
+      <label class="login-lbl">Tu nombre
+        <input type="text" id="login-nombre" autocomplete="name" placeholder="Ej: Ana Pérez">
+      </label>
+      <div class="login-docente hidden" id="login-docente-block">
+        <label class="login-lbl">Clave docente
+          <input type="password" id="login-clave" autocomplete="off" placeholder="Clave de la profesora">
+        </label>
+      </div>
+      <div class="login-toggle">
+        <label><input type="checkbox" id="login-es-docente"> Soy la profesora</label>
+      </div>
+      <button class="btn-primario btn-block" id="login-entrar">Entrar</button>
+    </section>
+  </main>
+
+  <!-- VISTA: Inicio -->
+  <main id="view-inicio" class="view hidden">
+    <section class="opciones">
+      <h2 id="inicio-titulo">¿Qué comprobante querés completar?</h2>
+      <p class="texto-ayuda" id="inicio-ayuda">Elegí una opción para empezar a practicar. Cuando termines, pulsá “Entregar” para que la profesora lo vea y corrija.</p>
+      <div class="grid-opciones">
+        <button class="opcion-card" data-tipo="A">
+          <span class="opcion-emoji">🧾</span>
+          <span class="opcion-titulo">Factura A</span>
+          <span class="opcion-desc">Responsable inscripto · IVA discriminado</span>
+        </button>
+        <button class="opcion-card" data-tipo="B">
+          <span class="opcion-emoji">🧾</span>
+          <span class="opcion-titulo">Factura B</span>
+          <span class="opcion-desc">Consumidor final · IVA incluido</span>
+        </button>
+        <button class="opcion-card" data-tipo="C">
+          <span class="opcion-emoji">🧾</span>
+          <span class="opcion-titulo">Factura C</span>
+          <span class="opcion-desc">Monotributista · sin IVA discriminado</span>
+        </button>
+        <button class="opcion-card" data-tipo="RECIBO">
+          <span class="opcion-emoji">💵</span>
+          <span class="opcion-titulo">Recibo</span>
+          <span class="opcion-desc">Comprobante de pago recibido</span>
+        </button>
+        <button class="opcion-card" data-tipo="CHEQUE">
+          <span class="opcion-emoji">🏦</span>
+          <span class="opcion-titulo">Cheque común</span>
+          <span class="opcion-desc">Instrumento de pago a la vista</span>
+        </button>
+        <button class="opcion-card" data-tipo="CHEQUE_DIF">
+          <span class="opcion-emoji">📅</span>
+          <span class="opcion-titulo">Cheque de pago diferido</span>
+          <span class="opcion-desc">Se cobra en una fecha futura</span>
+        </button>
+        <button class="opcion-card" data-tipo="NOTA">
+          <span class="opcion-emoji">📝</span>
+          <span class="opcion-titulo">Nota de débito/crédito</span>
+          <span class="opcion-desc">Corrige importes de una factura anterior</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="zonas-peligro">
+      <h3>Administración</h3>
+      <p class="texto-ayuda">Borrá todos los borradores guardados en este dispositivo. Esta acción no se puede deshacer.</p>
+      <button class="btn-peligro" id="btn-borrar-todo">🗑️ Borrar borradores</button>
+    </section>
+  </main>
+
+  <!-- VISTA: Aprender -->
+  <main id="view-aprender" class="view hidden">
+    <section class="aprender">
+      <h2>📖 Aprendé a completar comprobantes</h2>
+      <p class="texto-ayuda">Consultá la información de cada comprobante y sus partes antes de practicar.</p>
+
+      <div class="tabs" id="tabs-aprender" role="tablist">
+        <button class="tab-btn is-active" data-tab="A">Factura A</button>
+        <button class="tab-btn" data-tab="B">Factura B</button>
+        <button class="tab-btn" data-tab="C">Factura C</button>
+        <button class="tab-btn" data-tab="RECIBO">Recibo</button>
+        <button class="tab-btn" data-tab="CHEQUE">Cheque</button>
+        <button class="tab-btn" data-tab="CHEQUE_DIF">Cheque diferido</button>
+        <button class="tab-btn" data-tab="NOTA">Nota débito/crédito</button>
+        <button class="tab-btn" data-tab="GREAT">Tabla comparativa</button>
+      </div>
+
+      <div id="contenido-aprender" class="aprender-contenido">
+      </div>
+    </section>
+  </main>
+
+  <!-- VISTA: Historial -->
+  <main id="view-historial" class="view hidden">
+    <section class="historial">
+      <h2>🗂️ Tus comprobantes</h2>
+      <p class="texto-ayuda" id="historial-ayuda">Acá vas a encontrar tus borradores y las entregas que ya enviaste a la profesora.</p>
+
+      <div class="filtros">
+        <select id="filtro-tipo" class="filtro">
+          <option value="">Todos los tipos</option>
+          <option value="A">Factura A</option>
+          <option value="B">Factura B</option>
+          <option value="C">Factura C</option>
+          <option value="RECIBO">Recibo</option>
+          <option value="CHEQUE">Cheque</option>
+          <option value="CHEQUE_DIF">Cheque diferido</option>
+          <option value="NOTA">Nota débito/crédito</option>
+        </select>
+        <input type="text" id="filtro-texto" class="filtro" placeholder="Buscar por número, nombre o monto...">
+      </div>
+
+      <div id="lista-historial" class="lista-historial">
+      </div>
+    </section>
+  </main>
+
+  <!-- VISTA: Editor -->
+  <main id="view-editor" class="view hidden">
+    <div class="editor-topbar">
+      <button class="btn-volver" id="btn-volver-editor">← Volver</button>
+      <h2 id="editor-titulo">Nuevo comprobante</h2>
+    </div>
+
+    <div class="editor-acciones">
+      <button class="btn-primario" id="btn-guardar">💾 Guardar</button>
+      <button class="btn-entregar" id="btn-entregar">📤 Entregar</button>
+      <button class="btn-secundario" id="btn-pdf">📄 PDF</button>
+      <button class="btn-ver-ayuda" id="btn-ver-ayuda">👁 Ver ayuda</button>
+    </div>
+
+    <div class="nota-ayuda-banner hidden" id="banner-devuelto">
+      La profesora te devolvió este trabajo. Corregí las casillas marcadas y volvé a entregarlo.
+    </div>
+
+    <!-- Panel de corrección (vista docente) -->
+    <div class="panel-correccion hidden" id="panel-correccion">
+      <h3>✏️ Corrección de <span id="corr-alumno"></span></h3>
+      <p class="texto-ayuda">Tocá una casilla de la carta para marcarla como error. Después guardá la corrección.</p>
+      <div class="corr-grid">
+        <label class="login-lbl">Nota
+          <input type="text" id="corr-nota" placeholder="Ej: 8 / Aprobado / 10">
+        </label>
+        <label class="login-lbl">Estado
+          <select id="corr-aprobado">
+            <option value="">—</option>
+            <option value="aprobado">Aprobado</option>
+            <option value="desaprobado">Desaprobado</option>
+            <option value="enproceso">En proceso</option>
+          </select>
+        </label>
+      </div>
+      <label class="login-lbl">Comentario general
+        <textarea id="corr-comentario" rows="2" placeholder="Comentario para el alumno..."></textarea>
+      </label>
+      <div class="corr-acciones">
+        <button class="btn-primario" id="corr-guardar">💾 Guardar corrección</button>
+        <button class="btn-secundario" id="corr-devolver">🔁 Devolver para corregir</button>
+      </div>
+    </div>
+
+    <!-- Resumen de corrección (vista alumno) -->
+    <div class="resumen-correccion hidden" id="resumen-correccion">
+    </div>
+
+    <div id="editor-contenedor" class="editor-contenedor">
+    </div>
+
+    <div class="editor-acciones-bottom">
+      <button class="btn-primario" id="btn-nuevo">➕ Nuevo</button>
+    </div>
+  </main>
+
+  <!-- Modal de confirmación -->
+  <div id="modal-confirmar" class="modal-overlay hidden">
+    <div class="modal">
+      <h3 id="modal-titulo">¿Estás seguro?</h3>
+      <p id="modal-texto">Esta acción no se puede deshacer.</p>
+      <div class="modal-botones">
+        <button class="btn-secundario" id="modal-cancelar">Cancelar</button>
+        <button class="btn-peligro" id="modal-confirmar-btn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plantillas de cartas -->
+  <template id="plantilla-A">
+    <div class="carta factura factura-A" data-tipo="A">
+      <div class="f-hdr">
+        <div class="f-titulo-linea">
+          <span class="f-letra">A</span>
+        </div>
+        <div class="f-izq">
+          <span class="lbl">IVA:</span>
+          <span class="val" data-bind="condicionEmisor" contenteditable="true" data-ayuda="Condición frente al IVA del emisor (ej: Responsable Inscripto)."></span>
+        </div>
+        <div class="f-codbox">
+          <div class="f-nombre-box">FACTURA</div>
+          <div class="f-cod">COD.&nbsp;N° <span class="val" data-bind="puntoVenta" contenteditable="true" data-ayuda="Punto de venta (4 dígitos, ej: 0001)."></span>-<span class="val" data-bind="numeroFactura" contenteditable="true" data-ayuda="Número de comprobante (8 dígitos)."></span></div>
+          <div class="f-fecha">FECHA: <span class="val" data-bind="fechaEmision" contenteditable="true" data-ayuda="Fecha de emisión (dd/mm/aaaa)."></span></div>
+          <div class="f-cuit">C.U.I.T.: <span class="val" data-bind="cuitEmisor" contenteditable="true" data-ayuda="CUIT del emisor (11 dígitos)."></span></div>
+          <div class="f-fis">INGRESOS BRUTOS: <span class="val" data-bind="ingresosBrutos" contenteditable="true" data-ayuda="N° de inscripción de Ingresos Brutos (opcional)."></span></div>
+          <div class="f-fis">INICIO DE ACTIVIDADES: <span class="val" data-bind="inicioActividades" contenteditable="true" data-ayuda="Fecha de inicio de actividades (opcional)."></span></div>
+        </div>
+      </div>
+
+      <div class="f-cliente-box">
+        <div class="f-cli"><span class="lbl">Señor(es):</span><span class="val" data-bind="razonSocialCliente" contenteditable="true" data-ayuda="Nombre o razón social del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">C.U.I.T.:</span><span class="val" data-bind="cuitCliente" contenteditable="true" data-ayuda="CUIT o DNI del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">Domicilio:</span><span class="val" data-bind="domicilioCliente" contenteditable="true" data-ayuda="Domicilio del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">Localidad:</span><span class="val" data-bind="localidadCliente" contenteditable="true" data-ayuda="Localidad del comprador."></span></div>
+        <div class="f-iva-comprador">
+          <span class="iva-titulo">IVA COMPRADOR:</span>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="No Resp."> No Resp.</label>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="Mon.Exenta"> Mon.Exenta</label>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="Cons.Final"> Cons.Final</label>
+          <span class="val iva-seleccion" data-bind="condicionCliente"></span>
+        </div>
+      </div>
+
+      <table class="detalle">
+        <thead>
+          <tr><th>CANT.</th><th>DESCRIPCION</th><th>P. UNIT.</th><th>IMPORTE</th></tr>
+        </thead>
+        <tbody>
+          <tr class="fila-item" data-fila="0">
+            <td><span class="val" data-bind="item_cant_0" contenteditable="true" data-ayuda="Cantidad de unidades."></span></td>
+            <td><span class="val" data-bind="item_desc_0" contenteditable="true" data-ayuda="Descripción del producto o servicio."></span></td>
+            <td><span class="val precio" data-bind="item_pu_0" contenteditable="true" data-ayuda="Precio por unidad (sin IVA)."></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_0" data-calc="item_sub" data-fila="0"></span></td>
+          </tr>
+          <tr class="fila-item" data-fila="1">
+            <td><span class="val" data-bind="item_cant_1" contenteditable="true"></span></td>
+            <td><span class="val" data-bind="item_desc_1" contenteditable="true"></span></td>
+            <td><span class="val precio" data-bind="item_pu_1" contenteditable="true"></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_1" data-calc="item_sub" data-fila="1"></span></td>
+          </tr>
+          <tr class="fila-item" data-fila="2">
+            <td><span class="val" data-bind="item_cant_2" contenteditable="true"></span></td>
+            <td><span class="val" data-bind="item_desc_2" contenteditable="true"></span></td>
+            <td><span class="val precio" data-bind="item_pu_2" contenteditable="true"></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_2" data-calc="item_sub" data-fila="2"></span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="lbl-aliniado-derecha">Subtotal</td>
+            <td><span class="val" data-bind="subtotal" data-calc="subtotal"></span></td>
+          </tr>
+          <tr>
+            <td colspan="3" class="lbl-aliniado-derecha">IVA Resp.Inst.</td>
+            <td><span class="val" data-bind="iva" contenteditable="true" data-ayuda="IVA calculado por vos (ej: 5250). Se suma al total." data-calc="iva"></span></td>
+          </tr>
+          <tr>
+            <td colspan="3" class="lbl-aliniado-derecha"><strong>TOTAL $</strong></td>
+            <td><strong><span class="val" data-bind="total" data-calc="total"></span></strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="f-sellos">
+        <div><span class="lbl">CAI N°:</span> <span class="valor-fijo">(Otorgado por AFIP)</span></div>
+        <div><span class="lbl">Fecha de Vto.:</span> (Otorgado por AFIP)</div>
+      </div>
+      <div class="f-imprenta">DATOS IMPRENTA · FECHA DE IMPRESION - NUMERACION (DESDE ... HASTA ...)</div>
+      <div class="f-copia">ORIGINAL / BLANCO</div>
+    </div>
+  </template>
+
+  <template id="plantilla-B">
+    <div class="carta factura factura-B" data-tipo="B">
+      <div class="f-hdr">
+        <div class="f-titulo-linea">
+          <span class="f-letra">B</span>
+        </div>
+        <div class="f-izq">
+          <span class="lbl">IVA:</span>
+          <span class="val" data-bind="condicionEmisor" contenteditable="true" data-ayuda="Condición frente al IVA del emisor (ej: Responsable Inscripto)."></span>
+        </div>
+        <div class="f-codbox">
+          <div class="f-nombre-box">FACTURA</div>
+          <div class="f-cod">COD.&nbsp;N° <span class="val" data-bind="puntoVenta" contenteditable="true" data-ayuda="Punto de venta (4 dígitos, ej: 0001)."></span>-<span class="val" data-bind="numeroFactura" contenteditable="true" data-ayuda="Número de comprobante (8 dígitos)."></span></div>
+          <div class="f-fecha">FECHA: <span class="val" data-bind="fechaEmision" contenteditable="true" data-ayuda="Fecha de emisión (dd/mm/aaaa)."></span></div>
+          <div class="f-cuit">C.U.I.T.: <span class="val" data-bind="cuitEmisor" contenteditable="true" data-ayuda="CUIT del emisor (11 dígitos)."></span></div>
+          <div class="f-fis">INGRESOS BRUTOS: <span class="val" data-bind="ingresosBrutos" contenteditable="true" data-ayuda="N° de inscripción de Ingresos Brutos (opcional)."></span></div>
+          <div class="f-fis">INICIO DE ACTIVIDADES: <span class="val" data-bind="inicioActividades" contenteditable="true" data-ayuda="Fecha de inicio de actividades (opcional)."></span></div>
+        </div>
+      </div>
+
+      <div class="f-cliente-box">
+        <div class="f-cli"><span class="lbl">Señor(es):</span><span class="val" data-bind="razonSocialCliente" contenteditable="true" data-ayuda="Nombre o razón social del comprador. En Factura B suele ser consumidor final."></span></div>
+        <div class="f-cli"><span class="lbl">C.U.I.T.:</span><span class="val" data-bind="cuitCliente" contenteditable="true" data-ayuda="CUIT o DNI del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">Domicilio:</span><span class="val" data-bind="domicilioCliente" contenteditable="true" data-ayuda="Domicilio del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">Localidad:</span><span class="val" data-bind="localidadCliente" contenteditable="true" data-ayuda="Localidad del comprador."></span></div>
+        <div class="f-iva-comprador">
+          <span class="iva-titulo">IVA COMPRADOR:</span>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="No Resp."> No Resp.</label>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="Mon.Exenta"> Mon.Exenta</label>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="Cons.Final"> Cons.Final</label>
+          <span class="val iva-seleccion" data-bind="condicionCliente"></span>
+        </div>
+      </div>
+
+      <table class="detalle">
+        <thead>
+          <tr><th>CANT.</th><th>DESCRIPCION</th><th>P. UNIT.</th><th>IMPORTE</th></tr>
+        </thead>
+        <tbody>
+          <tr class="fila-item" data-fila="0">
+            <td><span class="val" data-bind="item_cant_0" contenteditable="true" data-ayuda="Cantidad de unidades."></span></td>
+            <td><span class="val" data-bind="item_desc_0" contenteditable="true" data-ayuda="Descripción del producto o servicio."></span></td>
+            <td><span class="val precio" data-bind="item_pu_0" contenteditable="true" data-ayuda="Precio por unidad con IVA incluido."></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_0" data-calc="item_sub" data-fila="0"></span></td>
+          </tr>
+          <tr class="fila-item" data-fila="1">
+            <td><span class="val" data-bind="item_cant_1" contenteditable="true"></span></td>
+            <td><span class="val" data-bind="item_desc_1" contenteditable="true"></span></td>
+            <td><span class="val precio" data-bind="item_pu_1" contenteditable="true"></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_1" data-calc="item_sub" data-fila="1"></span></td>
+          </tr>
+          <tr class="fila-item" data-fila="2">
+            <td><span class="val" data-bind="item_cant_2" contenteditable="true"></span></td>
+            <td><span class="val" data-bind="item_desc_2" contenteditable="true"></span></td>
+            <td><span class="val precio" data-bind="item_pu_2" contenteditable="true"></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_2" data-calc="item_sub" data-fila="2"></span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="lbl-aliniado-derecha">Total (IVA incluido)</td>
+            <td><strong><span class="val" data-bind="total" data-calc="total"></span></strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="f-sellos">
+        <div><span class="lbl">CAI N°:</span> (Otorgado por AFIP)</div>
+        <div><span class="lbl">Fecha de Vto.:</span> (Otorgado por AFIP)</div>
+      </div>
+      <div class="f-imprenta">DATOS IMPRENTA · FECHA DE IMPRESIÓN - NUMERACIÓN (DESDE ... HASTA ...)</div>
+      <div class="f-copia">ORIGINAL / BLANCO</div>
+    </div>
+  </template>
+
+  <template id="plantilla-C">
+    <div class="carta factura factura-C" data-tipo="C">
+      <div class="f-hdr">
+        <div class="f-titulo-linea">
+          <span class="f-letra">C</span>
+        </div>
+        <div class="f-izq">
+          <span class="lbl">IVA:</span>
+          <span class="val" data-bind="condicionEmisor" contenteditable="true" data-ayuda="Condición frente al IVA del emisor (ej: Monotributista)."></span>
+        </div>
+        <div class="f-codbox">
+          <div class="f-nombre-box">FACTURA</div>
+          <div class="f-cod">COD.&nbsp;N° <span class="val" data-bind="puntoVenta" contenteditable="true" data-ayuda="Punto de venta (4 dígitos, ej: 0001)."></span>-<span class="val" data-bind="numeroFactura" contenteditable="true" data-ayuda="Número de comprobante (8 dígitos)."></span></div>
+          <div class="f-fecha">FECHA: <span class="val" data-bind="fechaEmision" contenteditable="true" data-ayuda="Fecha de emisión (dd/mm/aaaa)."></span></div>
+          <div class="f-cuit">C.U.I.T.: <span class="val" data-bind="cuitEmisor" contenteditable="true" data-ayuda="CUIT del emisor (11 dígitos)."></span></div>
+          <div class="f-fis">INGRESOS BRUTOS: <span class="val" data-bind="ingresosBrutos" contenteditable="true" data-ayuda="N° de inscripción de Ingresos Brutos (opcional)."></span></div>
+          <div class="f-fis">INICIO DE ACTIVIDADES: <span class="val" data-bind="inicioActividades" contenteditable="true" data-ayuda="Fecha de inicio de actividades (opcional)."></span></div>
+        </div>
+      </div>
+
+      <div class="f-cliente-box">
+        <div class="f-cli"><span class="lbl">Señor(es):</span><span class="val" data-bind="razonSocialCliente" contenteditable="true" data-ayuda="Nombre o razón social del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">C.U.I.T.:</span><span class="val" data-bind="cuitCliente" contenteditable="true" data-ayuda="CUIT o DNI del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">Domicilio:</span><span class="val" data-bind="domicilioCliente" contenteditable="true" data-ayuda="Domicilio del comprador."></span></div>
+        <div class="f-cli"><span class="lbl">Localidad:</span><span class="val" data-bind="localidadCliente" contenteditable="true" data-ayuda="Localidad del comprador."></span></div>
+        <div class="f-iva-comprador">
+          <span class="iva-titulo">IVA COMPRADOR:</span>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="No Resp."> No Resp.</label>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="Mon.Exenta"> Mon.Exenta</label>
+          <label class="iva-opcion"><input type="checkbox" class="check-iva" value="Cons.Final"> Cons.Final</label>
+          <span class="val iva-seleccion" data-bind="condicionCliente"></span>
+        </div>
+      </div>
+
+      <table class="detalle">
+        <thead>
+          <tr><th>CANT.</th><th>DESCRIPCION</th><th>P. UNIT.</th><th>IMPORTE</th></tr>
+        </thead>
+        <tbody>
+          <tr class="fila-item" data-fila="0">
+            <td><span class="val" data-bind="item_cant_0" contenteditable="true" data-ayuda="Cantidad de unidades."></span></td>
+            <td><span class="val" data-bind="item_desc_0" contenteditable="true" data-ayuda="Descripción del producto o servicio."></span></td>
+            <td><span class="val precio" data-bind="item_pu_0" contenteditable="true" data-ayuda="Precio por unidad (con IVA incluido para monotributo)."></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_0" data-calc="item_sub" data-fila="0"></span></td>
+          </tr>
+          <tr class="fila-item" data-fila="1">
+            <td><span class="val" data-bind="item_cant_1" contenteditable="true"></span></td>
+            <td><span class="val" data-bind="item_desc_1" contenteditable="true"></span></td>
+            <td><span class="val precio" data-bind="item_pu_1" contenteditable="true"></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_1" data-calc="item_sub" data-fila="1"></span></td>
+          </tr>
+          <tr class="fila-item" data-fila="2">
+            <td><span class="val" data-bind="item_cant_2" contenteditable="true"></span></td>
+            <td><span class="val" data-bind="item_desc_2" contenteditable="true"></span></td>
+            <td><span class="val precio" data-bind="item_pu_2" contenteditable="true"></span></td>
+            <td><span class="val subtotal" data-bind="item_sub_2" data-calc="item_sub" data-fila="2"></span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="lbl-aliniado-derecha"><strong>TOTAL</strong></td>
+            <td><strong><span class="val" data-bind="total" data-calc="total"></span></strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="f-sellos">
+        <div><span class="lbl">CAI N°:</span> (Otorgado por AFIP)</div>
+        <div><span class="lbl">Fecha de Vto.:</span> (Otorgado por AFIP)</div>
+      </div>
+      <div class="f-imprenta">DATOS IMPRENTA · FECHA DE IMPRESIÓN - NUMERACIÓN (DESDE ... HASTA ...)</div>
+      <div class="f-copia">ORIGINAL / BLANCO</div>
+    </div>
+  </template>
+
+  <template id="plantilla-RECIBO">
+    <div class="carta recibo" data-tipo="RECIBO">
+      <div class="carta-cabecera">
+        <div class="emisor">
+          <div class="campo"><span class="lbl">Razón social (emisor)</span><span class="val" data-bind="razonSocialEmisor" contenteditable="true" data-ayuda="Nombre de quien recibe el pago (institución)."></span></div>
+          <div class="campo-inline"><span class="lbl">CUIT</span><span class="val" data-bind="cuitEmisor" contenteditable="true" data-ayuda="CUIT del emisor (11 dígitos)."></span></div>
+          <div class="campo-inline"><span class="lbl">Domicilio</span><span class="val" data-bind="domicilioEmisor" contenteditable="true" data-ayuda="Domicilio de la institución."></span></div>
+        </div>
+        <div class="rotulo">
+          <div class="factura-tipo">RECIBO</div>
+          <div class="recibo-n">N° <span class="val" data-bind="numeroRecibo" contenteditable="true" data-ayuda="Número del recibo."></span></div>
+        </div>
+      </div>
+
+      <div class="campo"><span class="lbl">Fecha</span><span class="val" data-bind="fechaEmision" contenteditable="true" data-ayuda="Fecha del recibo (dd/mm/aaaa)."></span></div>
+
+      <p class="recibo-clausula">
+        Recibí de <span class="val" data-bind="recibiDe" contenteditable="true" data-ayuda="Nombre de la persona que entrega el dinero."></span>
+        la suma de <span class="val" data-bind="montoLetras" contenteditable="true" data-ayuda="Monto en letras. Ej: Mil pesos con 00/100." data-placeholder="Expresado en palabras"></span>
+        ($ <span class="val" data-bind="montoNumeros" contenteditable="true" data-ayuda="Monto en números (se completa en letras automáticamente)."></span>)
+        en concepto de <span class="val" data-bind="concepto" contenteditable="true" data-ayuda="Motivo del pago: mensualidad, matrícula, cuota, etc."></span>.
+        Mediante <span class="val" data-bind="formaPago" contenteditable="true" data-ayuda="Efectivo, cheque, transferencia, etc."></span>.
+      </p>
+
+      <div class="firmas">
+        <div>
+          <span class="lbl">Firma y aclaración</span>
+          <div class="espacio-firma"></div>
+        </div>
+        <div>
+          <span class="lbl">DNI</span>
+          <div class="campo"><span class="val" data-bind="dni" contenteditable="true" data-ayuda="DNI del firmante (quien recibe el pago)."></span></div>
+        </div>
+
+      </div>
+    </div>
+  </template>
+
+  <template id="plantilla-CHEQUE">
+    <div class="carta cheque" data-tipo="CHEQUE">
+      <div class="cheque-hdr">
+        <div class="cheque-logo">
+          <div class="cheque-banco">
+            <span class="val" data-bind="banco" contenteditable="true" data-ayuda="Nombre del banco emisor. Ej: Banco Nación."></span>
+          </div>
+        </div>
+        <div class="cheque-rubrica">CHEQUE</div>
+        <div class="cheque-nums">
+          <div class="cheque-num preimpreso">330-500-3000 6</div>
+          <div class="cheque-num preimpreso">00475222 8</div>
+          <div class="cheque-num">
+            <span class="lbl">N°</span>
+            <span class="val" data-bind="numeroCheque" contenteditable="true" data-ayuda="Número de serie del cheque. Ej: 0000160799."></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheque-plaza">
+        <span class="val" data-bind="diaEmision" contenteditable="true" data-ayuda="Día de emisión (1-31). Ej: 12."></span>
+        <span class="lbl">de</span>
+        <span class="val" data-bind="mesEmision" contenteditable="true" data-ayuda="Mes de emisión en letras. Ej: Septiembre."></span>
+        <span class="lbl">de</span>
+        <span class="val" data-bind="anioEmision" contenteditable="true" data-ayuda="Año de emisión. Ej: 2026."></span>
+      </div>
+
+      <div class="cheque-clausula">
+        <div class="cheque-linea">
+          <span class="lbl">Páguese por este cheque a:</span>
+          <span class="val barra" data-bind="beneficiario" contenteditable="true" data-ayuda="Nombre de la persona o empresa a la que se le paga."></span>
+        </div>
+        <div class="cheque-linea">
+          <span class="lbl">La cantidad de pesos:</span>
+          <span class="val" data-bind="montoNumeros" contenteditable="true" data-ayuda="Importe en números."></span>
+          <span class="lbl"> - </span>
+          <span class="val" data-bind="montoLetras" contenteditable="true" data-ayuda="Monto en letras. Ej: Mil pesos con 00/100." data-placeholder="Expresado en palabras"></span>
+        </div>
+      </div>
+
+      <div class="cheque-firma">
+        <span class="lbl">Firma</span>
+        <div class="espacio-firma"></div>
+        <span class="lbl">Aclaración</span>
+        <span class="val" data-bind="aclaracion" contenteditable="true" data-ayuda="Firma y aclaración del librador."></span>
+      </div>
+
+      <div class="cheque-micr">330500300000475222000016079801*</div>
+    </div>
+  </template>
+
+  <template id="plantilla-CHEQUE_DIF">
+    <div class="carta cheque cheque-dif" data-tipo="CHEQUE_DIF">
+      <div class="cheque-hdr">
+        <div class="cheque-logo">
+          <div class="cheque-banco">
+            <span class="val" data-bind="banco" contenteditable="true" data-ayuda="Nombre del banco emisor. Ej: Banco Nación."></span>
+          </div>
+        </div>
+        <div class="cheque-rubrica">CHEQUE DE PAGO DIFERIDO</div>
+        <div class="cheque-nums">
+          <div class="cheque-num preimpreso">330-500-3000 6</div>
+          <div class="cheque-num preimpreso">00475222 8</div>
+          <div class="cheque-num">
+            <span class="lbl">N°</span>
+            <span class="val" data-bind="numeroCheque" contenteditable="true" data-ayuda="Número de serie del cheque (cheque de pago diferido)."></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheque-plaza">
+        <span class="val" data-bind="diaEmision" contenteditable="true" data-ayuda="Día de emisión (1-31). Ej: 12."></span>
+        <span class="lbl">de</span>
+        <span class="val" data-bind="mesEmision" contenteditable="true" data-ayuda="Mes de emisión en letras. Ej: Septiembre."></span>
+        <span class="lbl">de</span>
+        <span class="val" data-bind="anioEmision" contenteditable="true" data-ayuda="Año de emisión. Ej: 2026."></span>
+      </div>
+
+      <p class="cheque-condicion">La fecha de pago no puede exceder<br>a plazo de 360 días desde la fecha de emisión.</p>
+
+      <div class="cheque-plaza">
+        <span class="lbl">Fecha de pago:</span>
+        <span class="val" data-bind="diaPago" contenteditable="true" data-ayuda="Día de pago (1-31). Ej: 30."></span>
+        <span class="lbl">de</span>
+        <span class="val" data-bind="mesPago" contenteditable="true" data-ayuda="Mes de pago en letras. Ej: Noviembre."></span>
+        <span class="lbl">de</span>
+        <span class="val" data-bind="anioPago" contenteditable="true" data-ayuda="Año de pago. Ej: 2027."></span>
+      </div>
+
+      <div class="cheque-clausula">
+        <div class="cheque-linea">
+          <span class="lbl">Páguese a:</span>
+          <span class="val barra" data-bind="beneficiario" contenteditable="true" data-ayuda="Nombre de la persona o empresa a la que se le paga."></span>
+        </div>
+        <div class="cheque-linea">
+          <span class="lbl">La cantidad de pesos:</span>
+          <span class="val" data-bind="montoNumeros" contenteditable="true" data-ayuda="Importe en números."></span>
+          <span class="lbl"> - </span>
+          <span class="val" data-bind="montoLetras" contenteditable="true" data-ayuda="Monto en letras. Ej: Mil pesos con 00/100." data-placeholder="Expresado en palabras"></span>
+        </div>
+      </div>
+
+      <div class="cheque-firma">
+        <span class="lbl">Firma</span>
+        <div class="espacio-firma"></div>
+        <span class="lbl">Aclaración</span>
+        <span class="val" data-bind="aclaracion" contenteditable="true" data-ayuda="Firma y aclaración del librador."></span>
+      </div>
+
+      <div class="cheque-micr">330500300000475222000016079801*</div>
+    </div>
+  </template>
+
+  <template id="plantilla-NOTA">
+    <div class="carta nota" data-tipo="NOTA">
+      <div class="nota-form">
+
+        <div class="nota-letra">
+          <span class="nota-letra-txt">A</span>
+        </div>
+
+        <div class="nota-titulo-box">
+          <div class="nota-titulo">FACTURA - NOTA DE DÉBITO/CRÉDITO</div>
+          <div class="nota-num">
+            N° <span class="val" data-bind="puntoVenta" data-fijo="4" contenteditable="true" data-ayuda="Punto de venta (4 dígitos, ej: 0001)."></span> -
+            <span class="val" data-bind="numeroFactura" data-fijo="8" contenteditable="true" data-ayuda="Número de comprobante (8 dígitos)."></span>
+          </div>
+          <div class="nota-fecha">
+            <span class="lbl">FECHA</span>
+            <span class="val" data-bind="fechaEmision" contenteditable="true" data-ayuda="Fecha de emisión (dd/mm/aaaa)."></span>
+          </div>
+        </div>
+
+        <div class="nota-iva">
+          IVA&nbsp;-&nbsp;<span class="val" data-bind="condicionEmisor" contenteditable="true" data-ayuda="Condición frente al IVA del emisor (ej: Responsable Inscripto)."></span>
+        </div>
+
+        <div class="nota-emisor">
+          <div class="ne-row">
+            <span class="lbl l-cuit">C.U.I.T.:</span>
+            <span class="val v-e" data-bind="cuitEmisor" contenteditable="true" data-ayuda="CUIT del emisor (11 dígitos)."></span>
+            <span class="lbl l-ib">INGRESOS BRUTOS:</span>
+            <span class="val v-ib" data-bind="ingresosBrutos" contenteditable="true" data-ayuda="N° de inscripción de Ingresos Brutos (opcional)."></span>
+          </div>
+          <div class="ne-row">
+            <span class="lbl l-ia">INICIO DE ACTIVIDADES:</span>
+            <span class="val v-ia" data-bind="inicioActividades" contenteditable="true" data-ayuda="Fecha de inicio de actividades (opcional)."></span>
+          </div>
+        </div>
+
+        <div class="nota-rule-h h1"></div>
+
+        <div class="nota-cliente">
+          <div class="nc-row r1">
+            <span class="lbl">Señor(es):</span>
+            <span class="val v-rs" data-bind="razonSocialCliente" contenteditable="true" data-ayuda="Nombre o razón social del comprador."></span>
+          </div>
+          <div class="nc-row r2">
+            <span class="lbl">Domicilio:</span>
+            <span class="val v-dom" data-bind="domicilioCliente" contenteditable="true" data-ayuda="Domicilio del comprador."></span>
+            <span class="lbl l-loc">Localidad:</span>
+            <span class="val v-loc" data-bind="localidadCliente" contenteditable="true" data-ayuda="Localidad del comprador."></span>
+          </div>
+          <div class="nc-row r3">
+            <span class="lbl">IVA:</span>
+            <span class="iva-opcion"><input type="checkbox" class="check-iva" value="Resp. Inscripto"> Resp. Inscripto</span>
+            <span class="val v-iva vv-seleccion" data-bind="condicionCliente"></span>
+            <span class="lbl l-cuit">C.U.I.T.:</span>
+            <span class="val v-cuit" data-bind="cuitCliente" contenteditable="true" data-ayuda="CUIT del comprador."></span>
+          </div>
+          <div class="nc-rule"></div>
+          <div class="nc-row r4">
+            <span class="lbl">Condiciones de Venta:</span>
+            <span class="iva-opcion"><input type="checkbox" class="check-venta" value="Contado"> Contado</span>
+            <span class="iva-opcion"><input type="checkbox" class="check-venta" value="Cta. Cte."> Cta. Cte.</span>
+            <span class="val v-vta vv-seleccion" data-bind="condicionVenta"></span>
+            <span class="lbl l-rem">Remito N°:</span>
+            <span class="val v-rem" data-bind="remitoNumero" contenteditable="true" data-ayuda="N° de remito asociado (opcional)."></span>
+          </div>
+        </div>
+
+        <table class="nota-tabla">
+          <thead>
+            <tr>
+              <th class="c-cant">CANT.</th>
+              <th class="c-desc">DESCRIPCION</th>
+              <th class="c-pu">P. UNIT.</th>
+              <th class="c-imp">IMPORTE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="fila-item" data-fila="0">
+              <td class="c-cant"><span class="val" data-bind="item_cant_0" contenteditable="true" data-ayuda="Cantidad de unidades."></span></td>
+              <td class="c-desc"><span class="val" data-bind="item_desc_0" contenteditable="true" data-ayuda="Descripción del producto o servicio."></span></td>
+              <td class="c-pu"><span class="val" data-bind="item_pu_0" contenteditable="true" data-ayuda="Precio unitario."></span></td>
+              <td class="c-imp"><span class="val subtotal" data-bind="item_sub_0" data-calc="item_sub" data-fila="0"></span></td>
+            </tr>
+            <tr class="fila-item" data-fila="1">
+              <td class="c-cant"><span class="val" data-bind="item_cant_1" contenteditable="true" data-ayuda="Cantidad de unidades."></span></td>
+              <td class="c-desc"><span class="val" data-bind="item_desc_1" contenteditable="true" data-ayuda="Descripción del producto o servicio."></span></td>
+              <td class="c-pu"><span class="val" data-bind="item_pu_1" contenteditable="true" data-ayuda="Precio unitario."></span></td>
+              <td class="c-imp"><span class="val subtotal" data-bind="item_sub_1" data-calc="item_sub" data-fila="1"></span></td>
+            </tr>
+            <tr class="fila-item" data-fila="2">
+              <td class="c-cant"><span class="val" data-bind="item_cant_2" contenteditable="true" data-ayuda="Cantidad de unidades."></span></td>
+              <td class="c-desc"><span class="val" data-bind="item_desc_2" contenteditable="true" data-ayuda="Descripción del producto o servicio."></span></td>
+              <td class="c-pu"><span class="val" data-bind="item_pu_2" contenteditable="true" data-ayuda="Precio unitario."></span></td>
+              <td class="c-imp"><span class="val subtotal" data-bind="item_sub_2" data-calc="item_sub" data-fila="2"></span></td>
+            </tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+            <tr class="fila-vacia"><td class="c-cant">&nbsp;</td><td class="c-desc">&nbsp;</td><td class="c-pu">&nbsp;</td><td class="c-imp">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <div class="nota-totales">
+          <div class="nt-row">
+            <span class="nt-lbl">Sub-Total</span>
+            <span class="nt-val"><span class="val" data-bind="subtotal" data-calc="subtotal"></span></span>
+          </div>
+          <div class="nt-row">
+            <span class="nt-lbl">Impuesto</span>
+            <span class="nt-val"><span class="val" data-bind="impuesto" contenteditable="true" data-ayuda="Impuestos internos. Dejalo en 0 si no corresponde."></span></span>
+          </div>
+          <div class="nt-row">
+            <span class="nt-lbl">Sub-Total</span>
+            <span class="nt-val"><span class="val" data-bind="subtotal2" data-calc="subtotal2"></span></span>
+          </div>
+          <div class="nt-row">
+            <span class="nt-lbl">IVA Insc.</span>
+            <span class="nt-val"><span class="val" data-bind="iva" contenteditable="true" data-ayuda="IVA calculado por vos (ej: 10500). Se suma al total." data-calc="iva"></span></span>
+          </div>
+          <div class="nt-row">
+            <span class="nt-lbl nt-total">TOTAL $</span>
+            <span class="nt-val"><strong><span class="val" data-bind="total" data-calc="total"></span></strong></span>
+          </div>
+        </div>
+
+        <div class="nota-rule-h h2"></div>
+
+        <div class="nota-pie">
+          <div class="np-imprenta">
+            <div>GRÁFICA GUTEMBERG S.A. de Florencio B. Butera S.A.</div>
+            <div>Fdo 9. Rafaela (Santa Fe) · Tel (0342) 422175</div>
+            <div>C.U.I.T. 33-85007761-9 · Cort. Hab. Mun. N° 252/6</div>
+            <div>Ing. Nº de Impresión: 00002 · Fecha de Impresión: 05/2008</div>
+          </div>
+          <div class="np-cai">
+            <div class="np-cai-row">C.A.I. N°: <span class="np-cai-val">26855115404799</span></div>
+            <div class="np-cai-row">Fecha Vto.: <span class="np-cai-val">26/05/2018</span></div>
+          </div>
+          <div class="np-copia">ORIGINAL · BLANCO</div>
+        </div>
+
+        <div class="nota-original">ORIGINAL&nbsp;-&nbsp;BLANCO&nbsp;·&nbsp;DUPLICADO&nbsp;-&nbsp;AMARILLO</div>
+
+      </div>
+    </div>
+  </template>
+
+  <footer class="app-footer">
+    <p>Proyecto educativo · Comprobantes escolares</p>
+  </footer>
+
+  <!-- Firebase SDK (rewrite/write compat para 12.18.0, API firebase.* ) -->
+  <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+
+  <!-- html2pdf desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/sincronizacion.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/historial.js"></script>
+  <script src="js/aprender.js"></script>
+  <script src="js/pdf.js"></script>
+  <script src="js/docente.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
